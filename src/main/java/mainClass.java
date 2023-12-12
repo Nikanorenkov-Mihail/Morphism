@@ -39,7 +39,6 @@ public class mainClass {
         e.addOperation(operationToAdd);
     }
 
-
     // Метод для удаления операции из множества операций
     public void removeOperation(@NotNull Algebra e, String operationToRemove) {
         e.removeOperation(operationToRemove);
@@ -106,7 +105,6 @@ public class mainClass {
         Pattern pattern3 = Pattern.compile(",");
         String[] matcher3 = pattern3.split(set);
 
-
         HashSet<Integer> setForAlgebra = new HashSet<>();
         for (String string : matcher3) {
             try {
@@ -126,8 +124,6 @@ public class mainClass {
                 System.out.println("Error of operations");
             }
         }
-
-
         return new Algebra(nameOfAlgebra, setForAlgebra, operationsForAlgebra, neutralElementsForAlgebra);
     }
 
@@ -504,9 +500,5 @@ public class mainClass {
         System.out.println();
 
         System.out.println("Power of A: " + reduceElement(in.arrayOfAlgebras.getFirst()));
-
-        // for exp [3, 9, 21] -> [20, 8103, 1318815734]
-        // for logE [3, 9, 21] -> [1, 2, 3]
-        // for pow [3, 9, 21] -> [9, 81, 441]
     }
 }
