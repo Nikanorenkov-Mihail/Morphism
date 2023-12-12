@@ -1,5 +1,6 @@
 import java.util.HashSet;
 import java.util.Set;
+
 public class Algebra {
 
     public String name;
@@ -42,6 +43,11 @@ public class Algebra {
     // Метод для удаления нейтрального элемента
     public void removeNeutralElement(int neutralElement) {
         neutralElements.remove(neutralElement);
+    }
+
+    // show
+    public void showElement() {
+        System.out.println(this.name + ": " + this.elements + " " + this.operations + ((this.neutralElements == null) ? "" : " " + this.neutralElements));
     }
 
     // Геттер для получения множества элементов

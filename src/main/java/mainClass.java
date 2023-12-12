@@ -215,31 +215,204 @@ public class mainClass {
         return new Algebra("Morphism_" + inputAlgebra.name, setForAlgebra, inputAlgebra.operations, inputAlgebra.neutralElements);
     }
 
-    public static boolean checkMorphism(@NotNull Algebra a, @NotNull Algebra b) {
+    public static boolean checkMapping(@NotNull Algebra a, @NotNull Algebra b) {
         boolean result;
         Algebra aCloneMorf;
+        boolean injectiveMapping = false;
         for (int i = 0; i <= 3; i++) {
             result = true;
             aCloneMorf = createMorph(a, i);
-            if ((a.elements.size() != b.elements.size() | a.operations.size() != b.operations.size()))
+            if (a.elements.size() > b.elements.size()) {
                 result = false;
-            try {
-                if ((a.neutralElements.size() != b.neutralElements.size())) result = false;
-            } catch (Exception e) {
-                if (!(a.neutralElements == null & b.neutralElements == null)) result = false;
-            }
-            for (int inA : aCloneMorf.elements) {
+            } else {
                 try {
-                    b.elements.stream().filter(data -> Objects.equals(data, inA)).findFirst().get();
+                    if ((a.neutralElements.size() > b.neutralElements.size())) result = false;
                 } catch (Exception e) {
-                    result = false;
+                    if (!(a.neutralElements == null & b.neutralElements == null)) result = false;
+                }
+                for (int inA : aCloneMorf.elements) {
+                    try {
+                        b.elements.stream().filter(data -> Objects.equals(data, inA)).findFirst().get();
+                    } catch (Exception e) {
+                        result = false;
+                    }
                 }
             }
-            if (result) return true;
+
+            if (result && i != 0) {
+                System.out.println("Отображение сюръективно");
+                if (injectiveMapping) {
+                    System.out.println("Отображение биективно");
+                }
+                return true;
+            } else if (result) {
+                injectiveMapping = true;
+                System.out.println("Отображение инъективно");
+            }
         }
+        return injectiveMapping;
+    }
 
+    public static boolean checkMorphism(@NotNull Algebra a, @NotNull Algebra b) {
+        if (!checkMapping(a, b)) {
+            return false;
+        }
+        int result0 = 0;
+        boolean temp1 = false;
+        for (String s : a.operations) {
+            switch (s) {
+                case "+":
+                    for (int e : a.elements) {
+                        if (temp1) {
+                            result0 += e;
+                        } else {
+                            result0 = e;
+                            temp1 = true;
+                        }
+                        ;
+                    }
+                    ;
+                    break;
+                case "-":
+                    for (int e : a.elements) {
+                        if (temp1) {
+                            result0 -= e;
+                        } else {
+                            result0 = e;
+                            temp1 = true;
+                        }
+                    }
+                    break;
+                case "*":
+                    for (int e : a.elements) {
+                        if (temp1) {
+                            result0 *= e;
+                        } else {
+                            result0 = e;
+                            temp1 = true;
+                        }
+                    }
+                    break;
+                case "^":
+                    for (int e : a.elements) {
+                        if (temp1) {
+                            result0 = result0 ^ e;
+                        } else {
+                            result0 = e;
+                            temp1 = true;
+                        }
+                    }
+                    break;
+                case "/": {
 
-        return false;
+                    for (int e : a.elements) {
+                        if (temp1) {
+
+                            if (e != 0) {
+                                result0 += e;
+                            } else {
+                                System.out.println("Division by zero is not allowed.");
+                            }
+                        } else {
+                            result0 = e;
+                            temp1 = true;
+                        }
+
+                    }
+                    break;
+                }
+                default:
+                    System.out.println("Unsupported operation: " + s);
+            }
+        }
+        double result1 = 0;
+        double result2 = 0;
+        double result3 = 0;
+        boolean temp2 = false;
+        for (String s : b.operations) {
+            switch (s) {
+                case "+":
+                    for (int e : a.elements) {
+                        if (temp1) {
+                            result1 += Math.exp(e);
+                            result2 += Math.log(e);
+                            result3 += Math.pow(e, 2);
+                        } else {
+                            result1 = Math.exp(e);
+                            result2 = Math.log(e);
+                            result3 = Math.pow(e, 2);
+                            temp2 = true;
+                        }
+                        ;
+                    }
+                    ;
+                    break;
+                case "-":
+                    for (int e : a.elements) {
+                        if (temp1) {
+                            result1 -= Math.exp(e);
+                            result2 -= Math.log(e);
+                            result3 -= Math.pow(e, 2);
+                        } else {
+                            result1 = Math.exp(e);
+                            result2 = Math.log(e);
+                            result3 = Math.pow(e, 2);
+                            temp2 = true;
+                        }
+                    }
+                    break;
+                case "*":
+                    for (int e : a.elements) {
+                        if (temp1) {
+                            result1 *= Math.exp(e);
+                            result2 *= Math.log(e);
+                            result3 *= Math.pow(e, 2);
+                        } else {
+                            result1 = Math.exp(e);
+                            result2 = Math.log(e);
+                            result3 = Math.pow(e, 2);
+                            temp2 = true;
+                        }
+                    }
+                    break;
+                case "^":
+                    for (int e : a.elements) {
+                        if (temp1) {
+                            result1 = Math.pow(result1, Math.exp(e));
+                            result2 = Math.pow(result1, Math.log(e));
+                            result3 = Math.pow(result1, Math.pow(e, 2));
+                        } else {
+                            result1 = Math.exp(e);
+                            result2 = Math.log(e);
+                            result3 = Math.pow(e, 2);
+                            temp2 = true;
+                        }
+                    }
+                    break;
+                case "/":
+                    for (int e : a.elements) {
+                        if (temp2) {
+                            if (e != 0) {
+                                result1 = result1 / Math.exp(e);
+                                result2 = result2 / Math.log(e);
+                                result3 = result3 / Math.pow(e, 2);
+                            } else {
+                                System.out.println("Division by zero is not allowed.");
+                            }
+                        } else {
+                            result1 = Math.exp(e);
+                            result2 = Math.log(e);
+                            result3 = Math.pow(e, 2);
+                            temp2 = true;
+                        }
+
+                    }
+                    break;
+                default:
+                    System.out.println("Unsupported operation: " + s);
+            }
+        }
+        return (Math.exp(result0) == result1 | Math.log(result0) == result2 | Math.pow(result0, 2) == result3);
     }
 
     public void showAlg() {
@@ -251,40 +424,72 @@ public class mainClass {
     public static void main(String[] args) {
         mainClass in = new mainClass();
 
+        in.inputAlgebra("ONE1{1,2,3;*;4,5,6}");
+        in.inputAlgebra("ONE2{1,2,3;+;4,5,6}");
+        in.arrayOfAlgebras.get(0).showElement();
+        in.arrayOfAlgebras.get(1).showElement();
+        System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(0), in.arrayOfAlgebras.get(1)));
+        System.out.println("Morphism: " + checkMorphism(in.arrayOfAlgebras.get(0), in.arrayOfAlgebras.get(1)));
+        System.out.println();
+
         // add
-        in.inputAlgebra("A{3,9;+,-,/,*;4,5,6}");
-        in.inputAlgebra("B{1,2;+,-,/,*;4,5,6}");
+        in.inputAlgebra("A{3,9;*;4,5,6}");
+        in.inputAlgebra("B{1,2;+;4,5,6}");
         in.addElement(in.arrayOfAlgebras.get(0), 21);
         in.addElement(in.arrayOfAlgebras.get(1), 3);
-        System.out.println("A: " + in.arrayOfAlgebras.get(0).elements);
-        System.out.println("B: " + in.arrayOfAlgebras.get(1).elements);
+        in.arrayOfAlgebras.get(0).showElement();
+        in.arrayOfAlgebras.get(1).showElement();
+        System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(0), in.arrayOfAlgebras.get(1)));
         System.out.println("Morphism: " + checkMorphism(in.arrayOfAlgebras.get(0), in.arrayOfAlgebras.get(1)));
         System.out.println();
 
         // remove
-        in.addElement(in.arrayOfAlgebras.get(0), 30);
-        System.out.println("A: " + in.arrayOfAlgebras.get(0).elements);
-        System.out.println("B: " + in.arrayOfAlgebras.get(1).elements);
+        in.addElement(in.arrayOfAlgebras.get(1), 30);
+        in.arrayOfAlgebras.get(0).showElement();
+        in.arrayOfAlgebras.get(1).showElement();
+        System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(0), in.arrayOfAlgebras.get(1)));
         System.out.println("Morphism: " + checkMorphism(in.arrayOfAlgebras.get(0), in.arrayOfAlgebras.get(1)));
         System.out.println();
-        in.removeElement(in.arrayOfAlgebras.get(0), 30);
+
+        in.removeElement(in.arrayOfAlgebras.get(1), 30);
+        in.arrayOfAlgebras.get(0).showElement();
+        in.arrayOfAlgebras.get(1).showElement();
+        System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(0), in.arrayOfAlgebras.get(1)));
         System.out.println("Morphism: " + checkMorphism(in.arrayOfAlgebras.get(0), in.arrayOfAlgebras.get(1)));
         System.out.println();
 
 
-        // morfism
-        in.inputAlgebra("C{3,9,21;+,-,/,*;4,5,6}");
-        in.inputAlgebra("D{1,2,3;+,-,/,*;4,5,6}");
-        System.out.println("C: " + in.arrayOfAlgebras.get(2).elements);
-        System.out.println("D: " + in.arrayOfAlgebras.get(3).elements);
+        // morphism
+        in.inputAlgebra("C{1,2,3;+;4,5,6}");
+        in.inputAlgebra("D{1,2,3;*;4,5,6}");
+        in.arrayOfAlgebras.get(2).showElement();
+        in.arrayOfAlgebras.get(3).showElement();
+        System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(2), in.arrayOfAlgebras.get(3)));
         System.out.println("Morphism: " + checkMorphism(in.arrayOfAlgebras.get(2), in.arrayOfAlgebras.get(3)));
         System.out.println();
 
-        in.inputAlgebra("E{3,9,21;+,-,/,*;4,5,6}");
-        in.inputAlgebra("F{1,2,7;+,-,/,*;4,5,6}");
-        System.out.println("C: " + in.arrayOfAlgebras.get(4).elements);
-        System.out.println("D: " + in.arrayOfAlgebras.get(5).elements);
+        in.inputAlgebra("C{3,9,21;*;4,5,6}");
+        in.inputAlgebra("D{1,2,3;+;4,5,6}");
+        in.arrayOfAlgebras.get(4).showElement();
+        in.arrayOfAlgebras.get(5).showElement();
+        System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(4), in.arrayOfAlgebras.get(5)));
         System.out.println("Morphism: " + checkMorphism(in.arrayOfAlgebras.get(4), in.arrayOfAlgebras.get(5)));
+        System.out.println();
+
+        in.inputAlgebra("E{3,9,21;*;4,5,6}");
+        in.inputAlgebra("F{1,2,7;+;4,5,6}");
+        in.arrayOfAlgebras.get(6).showElement();
+        in.arrayOfAlgebras.get(7).showElement();
+        System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(6), in.arrayOfAlgebras.get(7)));
+        System.out.println("Morphism: " + checkMorphism(in.arrayOfAlgebras.get(6), in.arrayOfAlgebras.get(7)));
+        System.out.println();
+
+        in.inputAlgebra("ONE1{2;+;4,5,6}");
+        in.inputAlgebra("ONE2{2;+;4,5,6}");
+        in.arrayOfAlgebras.get(8).showElement();
+        in.arrayOfAlgebras.get(9).showElement();
+        System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(8), in.arrayOfAlgebras.get(9)));
+        System.out.println("Morphism: " + checkMorphism(in.arrayOfAlgebras.get(8), in.arrayOfAlgebras.get(9)));
         System.out.println();
 
         // clone
