@@ -126,7 +126,6 @@ public class mainClass {
         }
         return new Algebra(nameOfAlgebra, setForAlgebra, operationsForAlgebra, neutralElementsForAlgebra);
     }
-
     public String buildExpression(int operand1, String operation, int operand2) {
         return operand1 + " " + operation + " " + operand2;
     }
@@ -420,8 +419,8 @@ public class mainClass {
     public static void main(String[] args) {
         mainClass in = new mainClass();
 
-        in.inputAlgebra("ONE1{1,2,3;*;4,5,6}");
-        in.inputAlgebra("ONE2{1,2,3;+;4,5,6}");
+        in.inputAlgebra("ONE1{1,2,3;*;1}");
+        in.inputAlgebra("ONE2{1,2,3;+;0}");
         in.arrayOfAlgebras.get(0).showElement();
         in.arrayOfAlgebras.get(1).showElement();
         System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(0), in.arrayOfAlgebras.get(1)));
@@ -429,8 +428,8 @@ public class mainClass {
         System.out.println();
 
         // add
-        in.inputAlgebra("A{3,9;*;4,5,6}");
-        in.inputAlgebra("B{1,2;+;4,5,6}");
+        in.inputAlgebra("A{3,9;*;1}");
+        in.inputAlgebra("B{1,2;+;0}");
         in.addElement(in.arrayOfAlgebras.get(0), 21);
         in.addElement(in.arrayOfAlgebras.get(1), 3);
         in.arrayOfAlgebras.get(0).showElement();
@@ -456,32 +455,32 @@ public class mainClass {
 
 
         // morphism
-        in.inputAlgebra("C{1,2,3;+;4,5,6}");
-        in.inputAlgebra("D{1,2,3;*;4,5,6}");
+        in.inputAlgebra("C{1,2,3;+;0}");
+        in.inputAlgebra("D{1,2,3;*;1}");
         in.arrayOfAlgebras.get(2).showElement();
         in.arrayOfAlgebras.get(3).showElement();
         System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(2), in.arrayOfAlgebras.get(3)));
         System.out.println("Morphism: " + checkMorphism(in.arrayOfAlgebras.get(2), in.arrayOfAlgebras.get(3)));
         System.out.println();
 
-        in.inputAlgebra("C{3,9,21;*;4,5,6}");
-        in.inputAlgebra("D{1,2,3;+;4,5,6}");
+        in.inputAlgebra("C{3,9,21;*;1}");
+        in.inputAlgebra("D{1,2,3;+;0}");
         in.arrayOfAlgebras.get(4).showElement();
         in.arrayOfAlgebras.get(5).showElement();
         System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(4), in.arrayOfAlgebras.get(5)));
         System.out.println("Morphism: " + checkMorphism(in.arrayOfAlgebras.get(4), in.arrayOfAlgebras.get(5)));
         System.out.println();
 
-        in.inputAlgebra("E{3,9,21;*;4,5,6}");
-        in.inputAlgebra("F{1,2,7;+;4,5,6}");
+        in.inputAlgebra("E{3,9,21;*;1}");
+        in.inputAlgebra("F{1,2,7;+;0}");
         in.arrayOfAlgebras.get(6).showElement();
         in.arrayOfAlgebras.get(7).showElement();
         System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(6), in.arrayOfAlgebras.get(7)));
         System.out.println("Morphism: " + checkMorphism(in.arrayOfAlgebras.get(6), in.arrayOfAlgebras.get(7)));
         System.out.println();
 
-        in.inputAlgebra("ONE1{2;+;4,5,6}");
-        in.inputAlgebra("ONE2{2;+;4,5,6}");
+        in.inputAlgebra("ONE1{2;+;0}");
+        in.inputAlgebra("ONE2{2;+;1}");
         in.arrayOfAlgebras.get(8).showElement();
         in.arrayOfAlgebras.get(9).showElement();
         System.out.println("checkMapping: " + checkMapping(in.arrayOfAlgebras.get(8), in.arrayOfAlgebras.get(9)));
